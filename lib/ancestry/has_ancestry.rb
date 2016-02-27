@@ -1,4 +1,4 @@
-class << ActiveRecord::Base
+class << ApplicationRecord
   def has_ancestry options = {}
     # Check options
     raise Ancestry::AncestryException.new("Options for has_ancestry must be in a hash.") unless options.is_a? Hash
@@ -81,8 +81,8 @@ class << ActiveRecord::Base
 end
 
 ActiveSupport.on_load :active_record do
-  if not(ActiveRecord::Base.respond_to?(:acts_as_tree))
-    class << ActiveRecord::Base
+  if not(ApplicationRecord.respond_to?(:acts_as_tree))
+    class << ApplicationRecord
       alias_method :acts_as_tree, :has_ancestry
     end
   end

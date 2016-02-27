@@ -24,7 +24,7 @@ are added. The patch version is bumped when bugs are fixed.
 * Add block to sort_by_ancestry (thx Iliya)
 * Add attribute query method for parent_id (thx sj26)
 * Fixed and tested for rails 4 (thx adammck, Nihad, Systho, Philippe, e.a.)
-* Fixed overwriting ActiveRecord::Base.base_class (thx Rozhnov)
+* Fixed overwriting ApplicationRecord.base_class (thx Rozhnov)
 * New adopt strategy (thx unknown)
 * Many more improvements
 
@@ -83,7 +83,7 @@ are added. The patch version is bumped when bugs are fixed.
 * Depth caching (and cache rebuilding)
 * Depth method for nodes
 * Named scopes for selecting by depth
-* Relative depth options for tree navigation methods: 
+* Relative depth options for tree navigation methods:
     * ancestors
     * path
     * descendants

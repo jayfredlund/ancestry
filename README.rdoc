@@ -16,7 +16,7 @@ To apply Ancestry to any ActiveRecord model, follow these simple steps:
 === Rails 3
 - Add to Gemfile:
    # Gemfile
-   
+
    gem 'ancestry'
 - Install required gems:
    $ bundle install
@@ -26,33 +26,33 @@ To apply Ancestry to any ActiveRecord model, follow these simple steps:
    $ rails g migration add_ancestry_to_[table] ancestry:string
 - Add index to migration:
    # db/migrate/[date]_add_ancestry_to_[table].rb
-   
+
    class AddAncestryTo[Table] < ActiveRecord::Migration
       # Rails 4 Syntax
       def change
          add_column [table], :ancestry, :string
          add_index [table], :ancestry
       end
-      
+
       # Rails 3 Syntax
       def up
          add_column [table], :ancestry, :string
          add_index [table], :ancestry
       end
-      
+
       def down
          remove_column [table], :ancestry
          remove_index [table], :ancestry
       end
-      
+
 - Migrate your database:
    $ rake db:migrate
 
 == Add ancestry to your model
 - Add to app/models/[model].rb:
    # app/models/[model.rb]
-   
-   class [Model] < ActiveRecord::Base
+
+   class [Model] < ApplicationRecord
       has_ancestry
    end
 
@@ -60,7 +60,7 @@ Your model is now a tree!
 
 = Using acts_as_tree instead of has_ancestry
 
-In version 1.2.0 the <b>acts_as_tree</b> method was <b>renamed to has_ancestry</b> in order to allow usage of both the acts_as_tree gem and the ancestry gem in a single application. To not break backwards compatibility, the has_ancestry method is aliased with acts_as_tree if ActiveRecord::Base does not respond to acts_as_tree. acts_as_tree will continue to be supported in the future as I personally prefer it.
+In version 1.2.0 the <b>acts_as_tree</b> method was <b>renamed to has_ancestry</b> in order to allow usage of both the acts_as_tree gem and the ancestry gem in a single application. To not break backwards compatibility, the has_ancestry method is aliased with acts_as_tree if ApplicationRecord does not respond to acts_as_tree. acts_as_tree will continue to be supported in the future as I personally prefer it.
 
 = Organising records into a tree
 

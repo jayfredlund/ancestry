@@ -24,10 +24,10 @@ class HasAncestryTreeTest < ActiveSupport::TestCase
 
   def test_invalid_has_ancestry_options
     assert_raise Ancestry::AncestryException do
-      Class.new(ActiveRecord::Base).has_ancestry :this_option_doesnt_exist => 42
+      Class.new(ApplicationRecord).has_ancestry :this_option_doesnt_exist => 42
     end
     assert_raise Ancestry::AncestryException do
-      Class.new(ActiveRecord::Base).has_ancestry :not_a_hash
+      Class.new(ApplicationRecord).has_ancestry :not_a_hash
     end
   end
 

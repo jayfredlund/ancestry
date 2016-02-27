@@ -23,8 +23,8 @@ class AncestryTestDatabase
   def self.setup
     # Silence I18n and Activerecord logging
     I18n.enforce_available_locales = false if I18n.respond_to? :enforce_available_locales=
-    ActiveRecord::Base.logger = Logger.new(STDERR)
-    ActiveRecord::Base.logger.level = Logger::Severity::UNKNOWN
+    ApplicationRecord.logger = Logger.new(STDERR)
+    ApplicationRecord.logger.level = Logger::Severity::UNKNOWN
 
     # Assume Travis CI database config if no custom one exists
     filename = if File.exists?(File.expand_path('../database.yml', __FILE__))
@@ -41,9 +41,9 @@ class AncestryTestDatabase
         "sqlite3"
       end
     config = YAML.load_file(filename)[db_type]
-    ActiveRecord::Base.establish_connection config
+    ApplicationRecord.establish_connection config
     begin
-      ActiveRecord::Base.connection
+      ApplicationRecord.connection
     rescue => err
       if ENV["CI"]
         raise
@@ -61,7 +61,7 @@ class AncestryTestDatabase
     extra_columns        = options.delete(:extra_columns)
     default_scope_params = options.delete(:default_scope_params)
 
-    ActiveRecord::Base.connection.create_table 'test_nodes' do |table|
+    ApplicationRecord.connection.create_table 'test_nodes' do |table|
       table.string options[:ancestry_column] || :ancestry
       table.integer options[:depth_cache_column] || :ancestry_depth if options[:cache_depth]
       extra_columns.each do |name, type|
@@ -73,7 +73,7 @@ class AncestryTestDatabase
     model_name = testmethod.camelize + "TestNode"
 
     begin
-      model = Class.new(ActiveRecord::Base)
+      model = Class.new(ApplicationRecord)
       const_set model_name, model
 
       model.table_name = 'test_nodes'
@@ -98,7 +98,7 @@ class AncestryTestDatabase
       end
     ensure
       model.reset_column_information
-      ActiveRecord::Base.connection.drop_table 'test_nodes'
+      ApplicationRecord.connection.drop_table 'test_nodes'
       remove_const model_name
     end
   end
@@ -118,6 +118,6 @@ AncestryTestDatabase.setup
 puts "\nLoaded Ancestry test suite environment:"
 puts "  Ruby: #{RUBY_VERSION}"
 puts "  ActiveRecord: #{ActiveRecord::VERSION::STRING}"
-puts "  Database: #{ActiveRecord::Base.connection.adapter_name}\n\n"
+puts "  Database: #{ApplicationRecord.connection.adapter_name}\n\n"
 
 require 'minitest/autorun' if ActiveSupport::VERSION::STRING > "4"
